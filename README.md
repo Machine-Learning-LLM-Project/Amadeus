@@ -1,56 +1,70 @@
-# Welcome to your Expo app 👋
+# Amadeus
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+An LLM-powered planner for college students. Add your tasks, classes, and commitments. Amadeus estimates how long each task takes, ranks them, builds a schedule around your classes that meets every deadline, checks it for conflicts, and explains the plan. You accept or reject each suggestion, and a morning brief sums up your day.
 
-## Get started
+Built with Expo (React Native + TypeScript), Supabase, and the OpenAI API.
 
-1. Install dependencies
+> **Working with an AI assistant?** Read [AGENTS.md](AGENTS.md) first. It has the rules every contributor and agent must follow.
 
-   ```bash
-   npm install
-   ```
+## Team
 
-2. Start the app
+| Name | Area |
+| --- | --- |
+| Fernando | App setup, Supabase, scheduler, web build, README |
+| Gilberto | LLM connection, schemas, estimates and priorities, the loop, AI-use disclosure |
+| Matthew | Screens, demo video |
+| Kadin | Synthetic data, test runner, schedule checker, baseline, error analysis |
+| Bayasaa | Usage log and monthly limit, guardrails, morning brief prompt, privacy test |
 
-   ```bash
-   npx expo start
-   ```
+## Setup
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+Prerequisites: [Node.js](https://nodejs.org/) 22.13+ (24 LTS recommended; see `.nvmrc`), npm, and git.
+To run on a device or emulator, also install one of: the Android emulator (Windows/macOS), the iOS simulator (macOS, via Xcode), or the Expo Go app on your phone. A web browser works everywhere.
 
 ```bash
-npm run reset-project
+git clone https://github.com/Machine-Learning-LLM-Project/Amadeus.git
+cd Amadeus
+npm install
+cp .env.example .env        # Windows (PowerShell): Copy-Item .env.example .env
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+Fill in `.env` with the values the team shares privately. **Never commit `.env`.** Keep `LLM_MODE=mock` unless you are testing LLM features.
 
-### Other setup steps
+## Run the app
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+```bash
+npx expo start
+```
 
-## Learn more
+Then press `w` for web, `a` for the Android emulator, or `i` for the iOS simulator (macOS), or scan the QR code with Expo Go.
 
-To learn more about developing your project with Expo, look at the following resources:
+## Checks
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+npm run check    # typecheck + lint + secret check (also runs in CI on every PR)
+```
 
-## Join the community
+## Project layout
 
-Join our community of developers creating universal apps.
+| Path | What's there |
+| --- | --- |
+| `src/app/` | Screens (Expo Router). Tabs: Tasks, Classes, Schedule, Brief |
+| `src/components/` | Shared UI components |
+| `shared/` | Zod schemas and types shared by the app, backend, and evaluation ([details](shared/README.md)) |
+| `supabase/` | Database migrations and edge functions *(coming soon)* |
+| `eval/` | Synthetic students, test cases, and the test runner *(coming soon)* |
+| `docs/` | [Course requirements](docs/course-requirements.md), [proposal](docs/proposal.md), [team plan](docs/team-plan.md), [API access](docs/api-access.md) |
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Reproduce the evaluation
+
+*TODO (Kadin, Fernando):* how to run the 20 test cases for our system and the baseline, and where results are written.
+
+## Models and usage
+
+*TODO (Bayasaa, Fernando):* models used (`gpt-6-luna` via the course OpenAI project), usage and cost summary from the usage log.
+
+## AI-use disclosure
+
+*TODO (Gilberto):* full disclosure for the final submission.
+
+- **Project scaffold** (Expo setup, `shared/` schemas, `.env.example`, `.gitignore`, CI, AGENTS.md, docs formatting): generated with Claude Code, then reviewed and run locally by Fernando.

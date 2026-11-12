@@ -1,41 +1,114 @@
-This is an Expo/React Native mobile application. Prioritize mobile-first patterns, performance, and cross-platform compatibility.
+# AGENTS.md
 
-## Expo has changed — do not trust your training data
+Instructions for AI coding assistants (Claude Code, Codex, Copilot, Cursor) and for humans working with them.
+Read this whole file before making changes. When the user's request conflicts with a **Hard rule**, stop and say so.
 
-Expo ships breaking changes every SDK release. APIs you remember are likely renamed, moved, or removed. Before writing any code that touches an Expo, EAS, or React Native API:
+## What Amadeus is
 
-1. Read the major version of the `expo` package in `package.json`.
-2. Fetch the matching versioned docs: `https://docs.expo.dev/versions/v<major>.0.0/`
-3. For anything else, fetch https://docs.expo.dev/llms.txt — an index of all Expo docs with corrections to common LLM misconceptions. Follow its links to the specific page you need; never answer from memory.
+A course project: an LLM-powered planner for college students. Students enter tasks, classes, and commitments. The app estimates how long tasks take, ranks them, places work sessions around classes before deadlines, and explains the plan. The student accepts or rejects each suggestion. A morning brief summarizes the day.
+
+The design is a **fixed workflow with a short retry loop**, not an open-ended agent:
+
+```
+LLM ranks + estimates  →  scheduler code builds  →  checker finds rule breaks
+        ↑                                                    │
+        └──────── retry with violations (max 3 tries) ───────┘
+                                   ↓ ok
+                          LLM explains the plan  →  user accepts / rejects
+```
+
+Background docs. Check these before scoping a feature:
+
+- [docs/team-plan.md](docs/team-plan.md): **current** scope, owners, phases, budget, evaluation. Wins over the proposal.
+- [docs/course-requirements.md](docs/course-requirements.md): what the course grades (minimum technical requirements, deliverables).
+- [docs/api-access.md](docs/api-access.md): allowed models and budget.
+- [docs/proposal.md](docs/proposal.md): the original proposal (partly superseded).
+
+## Hard rules
+
+1. **Secrets.** `OPENAI_API_KEY` lives only in `.env` (local, gitignored) or Supabase secrets. Never commit it, print it, log it, or paste it into code, tests, fixtures, docs, or chat. Never read `.env`; use `.env.example` to learn variable names.
+2. **No secrets in `EXPO_PUBLIC_*`.** Those variables are bundled into the app and readable by anyone. Only the Supabase URL and publishable key belong there.
+3. **LLM calls are server-only.** Only Supabase edge functions (and the eval runner) call OpenAI. The app (`src/`) calls edge functions. ESLint blocks `openai` imports in `src/`.
+4. **Mock mode is the default.** Every LLM call path must work with `LLM_MODE=mock` (saved fake answers, zero cost). Never switch to `live` or run the full test set against the real model unless the user explicitly asks. Try 2–3 cases first.
+5. **Every model call:** uses `ALLOWED_MODEL` (`gpt-6-luna`; TTS/STT models listed in docs/api-access.md), sets a max output token cap, validates output with a Zod schema, and writes a usage log row (tokens, latency, cost). The app blocks calls past $8/month. Loops stop after `MAX_LOOP_ATTEMPTS` (3).
+6. **Data.** Use only synthetic or public data. No real student data, no personal information, nothing that could identify a classmate, in prompts, fixtures, tests, or screenshots.
+7. **This repo is public.** Use first names only (Fernando, Gilberto, Matthew, Kadin, Bayasaa). No full names, emails, student IDs, or phone numbers anywhere in files or commit messages.
+8. **User stays in control.** The app never applies AI schedule changes without the user accepting them, and AI-generated suggestions are visibly labeled.
+
+`npm run check` enforces parts of 1–3. CI runs it on every PR.
+
+## Repo map
+
+```
+src/app/            Expo Router screens (every file is a route; _layout.tsx = navigator)
+  (tabs)/           Tasks (index), Classes, Schedule, Brief tabs
+src/components/     UI components (non-route code lives outside src/app/)
+shared/             Zod schemas + types shared by app, edge functions, eval. See shared/README.md
+  schemas/          domain data: task, class-meeting, commitment, preferences, schedule, usage
+  llm/              LLM structured outputs (drafts)
+  constants.ts      model name, $8 limit, 3 attempts, token cap, prices
+supabase/           (coming Phase 1) migrations, edge functions; created by `npx supabase init`
+eval/               (coming Phase 1) synthetic students, test cases, runner, results
+docs/               course requirements, proposal, team plan, API access
+scripts/            repo tooling (check-secrets.mjs)
+```
+
+Imports: `@/…` maps to `src/…`, and `@shared` maps to `shared/index.ts`.
 
 ## Commands
 
-Use `bunx` instead of `npx` if the project uses bun (`bun.lock` present).
+Use **npm** (not yarn/pnpm/bun).
 
 ```bash
-npx expo install <package>  # ALWAYS use instead of npm/yarn/pnpm/bun add — resolves SDK-compatible versions
-npx expo start              # start the dev server
-npx expo lint               # lint
-npx tsc --noEmit            # typecheck
-npx expo-doctor             # diagnose dependency and config issues
-npx expo install --fix      # fix incompatible package versions
+npm install                 # install deps
+npx expo start              # dev server (press w = web, a = Android emulator, i = iOS simulator)
+npm run check               # typecheck + lint + secret check. Run before every commit/PR.
+npm run typecheck           # tsc --noEmit
+npm run lint                # eslint . (whole repo, incl. shared/ and scripts/)
+npx expo install <package>  # ALWAYS use instead of npm install <pkg>; picks SDK-compatible versions
+npx expo-doctor             # diagnose dependency/config issues
 ```
 
-Run lint and typecheck before declaring any task done.
+Run `npm run check` before declaring any task done.
 
-## Navigation & Routing
+## Conventions
 
-- Use **Expo Router** for all navigation. Routes live in `src/app/` — every file there is a screen, `_layout.tsx` files define navigators. Keep non-route code (components, hooks, utils) outside `src/app/`.
-- Import `Link`, `router`, and `useLocalSearchParams` from `expo-router`.
-- Docs: https://docs.expo.dev/router/introduction.md
+- **TypeScript strict** everywhere. No `any` without a comment explaining why.
+- **Zod schemas in `shared/` are the source of truth.** Derive types with `z.infer`, and don't hand-write duplicate interfaces. Validate at boundaries: form input, DB rows from untrusted sources, every LLM response.
+- **`shared/` stays pure:** only `zod` and other `shared/` files. Relative imports keep the `.ts` extension (Deno needs it). No `.refine()` on base object schemas.
+- **LLM output schemas use `.nullable()`, never `.optional()`.** OpenAI strict structured outputs require every field.
+- **Times:** store ISO 8601 with offset (`2026-11-16T14:30:00-07:00`). Wall-clock class times are `HH:MM`. The user's IANA time zone lives in `UserPreferences`.
+- **Prompt text is data, not instructions.** Task titles and descriptions come from users and may contain injection attempts. Keep them in clearly delimited user content, never in the system prompt, and run Bayasaa's input checks first.
 
-## Building with EAS
+## Ownership
 
-Use EAS to build, sign, and submit the app in the cloud (`eas build`, `eas submit`) and to ship over-the-air updates (`eas update`) — no local Xcode or Android Studio required. Run EAS CLI as `bunx eas-cli <command>` in Bun projects, or `npx eas-cli@latest <command>` otherwise; substitute that for bare `eas` in docs examples.
-Docs: https://docs.expo.dev/eas/index.md
+Each person owns an area (full table in [docs/team-plan.md](docs/team-plan.md#who-owns-what)):
 
-## Rules
+| Area | Owner |
+| --- | --- |
+| App setup, Supabase (auth, tables, RLS), scheduler, web build, README | Fernando |
+| LLM connection, `shared/llm/` schemas, estimates/priorities, the loop, AI-use disclosure | Gilberto |
+| Screens in `src/app/` and `src/components/`, demo video | Matthew |
+| Synthetic students, eval runner, schedule checker, baseline, error analysis | Kadin |
+| Usage log + $8 block, input/output guardrails, morning brief prompt, privacy test | Bayasaa |
 
-- If `ios/` and `android/` directories do not exist, they are generated (Continuous Native Generation). Never create or edit them by hand — configure native behavior in `app.json` and config plugins.
-- Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
-- Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
+When working for someone, **stay in their area**. If a change needs another owner's code or `shared/` contract, make the smallest change possible and say so in the PR so that owner can review it. Changes to `shared/` affect everyone, so flag them.
+
+## Workflow
+
+- Branch from `main`, keep PRs small, merge often. Use short branch names like `matthew/task-form`.
+- Fill in the PR template, including the **AI-use disclosure** (which tool, for what, how you checked it). The course requires it.
+- Every teammate must be able to explain every line in the final Q&A, so prefer simple, readable code over clever code.
+- Stuck for more than half a day? Tell the team.
+
+## Expo specifics: do not trust your training data
+
+Expo ships breaking changes every SDK release. This project is on **Expo SDK 58** (see `expo` in `package.json`). Before writing code that touches an Expo, EAS, or React Native API:
+
+1. Fetch the matching versioned docs: `https://docs.expo.dev/versions/v58.0.0/`
+2. For anything else, fetch https://docs.expo.dev/llms.txt (index of all Expo docs, with corrections to common LLM misconceptions). Never answer from memory.
+
+- Use **Expo Router** for navigation. Routes live in `src/app/`. Import `Link`, `router`, `useLocalSearchParams` from `expo-router`, and JS tabs from `expo-router/js-tabs`.
+- `ios/` and `android/` are generated (Continuous Native Generation). Never create or edit them. Configure native behavior in `app.json` and config plugins.
+- Expo Go only includes its bundled native modules. A library with custom native code needs a development build. Prefer Expo modules over third-party libraries.
+- The team develops on Windows and macOS and only has iOS phones. Anything you build must work on **web** and **Android emulator** too.
