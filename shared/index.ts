@@ -12,3 +12,5 @@ export * from './schemas/usage.ts';
 export * from './llm/task-estimate.ts';
 export * from './llm/schedule-proposal.ts';
 export * from './llm/morning-brief.ts';
+export * from './db.ts';
+export type { Database, Json, Tables, TablesInsert, TablesUpdate } from './database.types.ts';
