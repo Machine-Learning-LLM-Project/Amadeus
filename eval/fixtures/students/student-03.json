@@ -1,0 +1,92 @@
+{
+  "studentId": "student-03",
+  "preferences": {
+    "userId": "student-03",
+    "timezone": "America/New_York",
+    "dayStart": "06:30",
+    "dayEnd": "21:00",
+    "bufferMinutes": 10,
+    "maxSessionMinutes": 60
+  },
+  "tasks": [
+    {
+      "id": "student-03-task-1",
+      "userId": "student-03",
+      "title": "Chemistry lab report",
+      "description": "Analyze experimental results and submit report.",
+      "course": "Fictional Chemistry 201",
+      "dueAt": "2026-11-21T17:00:00-05:00",
+      "estimatedMinutes": 180,
+      "splittable": true,
+      "minSessionMinutes": 45,
+      "priority": 1,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-11-19T10:00:00-05:00"
+    },
+    {
+      "id": "student-03-task-2",
+      "userId": "student-03",
+      "title": "Psychology reading quiz",
+      "description": "Complete online quiz after reading chapter 8.",
+      "course": "Fictional Psychology",
+      "dueAt": "2026-11-20T23:00:00-05:00",
+      "estimatedMinutes": 45,
+      "splittable": false,
+      "minSessionMinutes": null,
+      "priority": 1,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-11-19T10:10:00-05:00"
+    },
+    {
+      "id": "student-03-task-3",
+      "userId": "student-03",
+      "title": "Spanish vocabulary review",
+      "description": null,
+      "course": "Fictional Spanish III",
+      "dueAt": "2026-11-24T09:00:00-05:00",
+      "estimatedMinutes": 30,
+      "splittable": false,
+      "minSessionMinutes": null,
+      "priority": 3,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-11-19T10:20:00-05:00"
+    }
+  ],
+  "classMeetings": [
+    {
+      "id": "student-03-class-1",
+      "userId": "student-03",
+      "name": "Fictional Chemistry 201",
+      "location": "Science Lab A",
+      "days": ["mon", "wed"],
+      "startTime": "08:00",
+      "endTime": "09:15",
+      "termStart": "2026-08-24",
+      "termEnd": "2026-12-11"
+    },
+    {
+      "id": "student-03-class-2",
+      "userId": "student-03",
+      "name": "Fictional Psychology",
+      "location": "Social Sciences 112",
+      "days": ["tue", "thu"],
+      "startTime": "11:00",
+      "endTime": "12:15",
+      "termStart": "2026-08-24",
+      "termEnd": "2026-12-11"
+    }
+  ],
+  "commitments": [
+    {
+      "id": "student-03-commitment-1",
+      "userId": "student-03",
+      "title": "Volunteer tutoring",
+      "kind": "extracurricular",
+      "startAt": "2026-11-21T13:00:00-05:00",
+      "endAt": "2026-11-21T15:00:00-05:00"
+    }
+  ]
+}
