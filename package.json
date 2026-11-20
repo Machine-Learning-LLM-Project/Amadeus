@@ -42,6 +42,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "check:secrets": "node scripts/check-secrets.mjs",
+    "test:task-estimates": "node --experimental-strip-types --test scripts/task-estimate.test.mjs",
     "check": "npm run typecheck && npm run lint && npm run check:secrets"
   },
   "private": true,
