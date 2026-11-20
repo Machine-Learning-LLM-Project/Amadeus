@@ -1,9 +1,11 @@
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import test from 'node:test';
 
 import { TaskEstimatesResponseSchema } from '../shared/llm/task-estimate.ts';
 import { getMockTaskEstimates } from '../supabase/functions/_shared/llm/mock-task-estimates.ts';
 import { getMockTaskScenarios } from '../supabase/functions/_shared/llm/mock-task-scenarios.ts';
+import { getTaskEstimates } from '../supabase/functions/_shared/llm/task-estimates.ts';
 
 for (const scenario of getMockTaskScenarios()) {
   test(`returns the predefined schema-valid response for ${scenario.name}`, () => {
@@ -62,4 +64,44 @@ test('mutating a response or a fixture cannot change subsequent results', () => 
   scenario.response.estimates.length = 0;
   const fresh = getMockTaskScenarios()[0];
   assert.deepEqual(getMockTaskEstimates(fresh.tasks), fresh.response);
+});
+
+test('missing, explicit mock, and empty mode configuration return the existing valid responses', () => {
+  for (const scenario of getMockTaskScenarios()) {
+    assert.deepEqual(getTaskEstimates(scenario.tasks), scenario.response);
+    for (const mode of [undefined, 'mock', '']) {
+      const response = getTaskEstimates(scenario.tasks, mode);
+      assert.deepEqual(TaskEstimatesResponseSchema.parse(response), scenario.response);
+    }
+  }
+});
+
+test('live mode fails explicitly without falling back to mock', () => {
+  const scenario = getMockTaskScenarios()[0];
+  assert.throws(() => getTaskEstimates(scenario.tasks, 'live'), /live task-estimate provider has not been implemented/);
+  assert.throws(() => getTaskEstimates([], 'live'), /live task-estimate provider has not been implemented/);
+});
+
+test('unsupported mode values are rejected', () => {
+  const scenario = getMockTaskScenarios()[0];
+  for (const mode of ['unknown', 'MOCK', ' mock ', ' ', null, 0]) {
+    assert.throws(() => getTaskEstimates(scenario.tasks, mode), /Unsupported LLM_MODE/);
+  }
+});
+
+test('provider selection preserves unsupported-input errors and deterministic results', () => {
+  assert.throws(() => getTaskEstimates([], 'mock'), /Unsupported mock task inputs/);
+  const scenario = getMockTaskScenarios()[0];
+  assert.deepEqual(getTaskEstimates(scenario.tasks), getTaskEstimates(scenario.tasks, 'mock'));
+  assert.deepEqual(getTaskEstimates([...scenario.tasks].reverse(), ''), scenario.response);
+});
+
+test('the server-side interface works in a process with no environment variables or API key', () => {
+  const output = execFileSync(process.execPath, [
+    '--experimental-strip-types', '--input-type=module', '-e',
+    `import { getTaskEstimates } from './supabase/functions/_shared/llm/task-estimates.ts';
+     import { getMockTaskScenarios } from './supabase/functions/_shared/llm/mock-task-scenarios.ts';
+     console.log(JSON.stringify(getTaskEstimates(getMockTaskScenarios()[0].tasks)));`,
+  ], { cwd: new URL('../', import.meta.url), env: {}, encoding: 'utf8' });
+  assert.deepEqual(JSON.parse(output), getMockTaskScenarios()[0].response);
 });
