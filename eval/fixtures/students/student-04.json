@@ -1,0 +1,100 @@
+{
+  "studentId": "student-04",
+  "preferences": {
+    "userId": "student-04",
+    "timezone": "America/Los_Angeles",
+    "dayStart": "09:00",
+    "dayEnd": "01:00",
+    "bufferMinutes": 5,
+    "maxSessionMinutes": 180
+  },
+  "tasks": [
+    {
+      "id": "student-04-task-1",
+      "userId": "student-04",
+      "title": "Design portfolio update",
+      "description": "Finalize mockups and export portfolio images.",
+      "course": "Fictional Graphic Design",
+      "dueAt": "2026-11-22T23:59:00-08:00",
+      "estimatedMinutes": 240,
+      "splittable": true,
+      "minSessionMinutes": 60,
+      "priority": 1,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-11-19T11:00:00-08:00"
+    },
+    {
+      "id": "student-04-task-2",
+      "userId": "student-04",
+      "title": "Video editing assignment",
+      "description": "Edit interview footage and submit final cut.",
+      "course": "Fictional Digital Media",
+      "dueAt": "2026-11-24T17:00:00-08:00",
+      "estimatedMinutes": 180,
+      "splittable": true,
+      "minSessionMinutes": 45,
+      "priority": 2,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-11-19T11:15:00-08:00"
+    },
+    {
+      "id": "student-04-task-3",
+      "userId": "student-04",
+      "title": "Art history discussion post",
+      "description": "Write and submit discussion response.",
+      "course": "Fictional Art History",
+      "dueAt": "2026-11-21T20:00:00-08:00",
+      "estimatedMinutes": 45,
+      "splittable": false,
+      "minSessionMinutes": null,
+      "priority": 2,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-11-19T11:20:00-08:00"
+    }
+  ],
+  "classMeetings": [
+    {
+      "id": "student-04-class-1",
+      "userId": "student-04",
+      "name": "Fictional Graphic Design",
+      "location": "Creative Arts 201",
+      "days": ["mon", "wed"],
+      "startTime": "13:00",
+      "endTime": "14:50",
+      "termStart": "2026-08-24",
+      "termEnd": "2026-12-11"
+    },
+    {
+      "id": "student-04-class-2",
+      "userId": "student-04",
+      "name": "Fictional Digital Media",
+      "location": "Media Lab 105",
+      "days": ["tue", "thu"],
+      "startTime": "15:00",
+      "endTime": "16:15",
+      "termStart": "2026-08-24",
+      "termEnd": "2026-12-11"
+    }
+  ],
+  "commitments": [
+    {
+      "id": "student-04-commitment-1",
+      "userId": "student-04",
+      "title": "Campus newspaper meeting",
+      "kind": "extracurricular",
+      "startAt": "2026-11-19T18:00:00-08:00",
+      "endAt": "2026-11-19T19:30:00-08:00"
+    },
+    {
+      "id": "student-04-commitment-2",
+      "userId": "student-04",
+      "title": "Part-time design job",
+      "kind": "work",
+      "startAt": "2026-11-21T10:00:00-08:00",
+      "endAt": "2026-11-21T14:00:00-08:00"
+    }
+  ]
+}
