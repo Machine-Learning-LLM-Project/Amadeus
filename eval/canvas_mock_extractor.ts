@@ -270,7 +270,7 @@ async function main() {
     
     // Loop through every todo and convert to Schema compatible format
     let task_json = todos_to_json_task(todos);
-    if (task_json.length == 0) {
+    if (task_json.length === 0) {
         console.error("[ERROR]: No todos found");
         process.exit(-1);
     }
