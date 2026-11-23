@@ -42,6 +42,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "check:secrets": "node scripts/check-secrets.mjs",
+    "test:bayasaa": "node --experimental-strip-types --test eval/bayasaa/guardrails.test.mjs",
+    "usage:summary": "node --experimental-strip-types eval/bayasaa/summarize-usage.mjs",
     "check": "npm run typecheck && npm run lint && npm run check:secrets"
   },
   "private": true,
