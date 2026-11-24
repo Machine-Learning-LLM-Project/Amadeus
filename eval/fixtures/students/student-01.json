@@ -1,0 +1,111 @@
+{
+  "studentId": "student-01",
+  "preferences": {
+    "userId": "student-01",
+    "timezone": "America/Denver",
+    "dayStart": "08:00",
+    "dayEnd": "22:00",
+    "bufferMinutes": 10,
+    "maxSessionMinutes": 90
+  },
+  "tasks": [
+    {
+      "id": "student-01-task-1",
+      "userId": "student-01",
+      "title": "Complete Algebra practice set",
+      "description": "Finish problems 1 through 20 and review the worked examples.",
+      "course": "Fictional Algebra 101",
+      "dueAt": "2026-11-20T18:00:00-07:00",
+      "estimatedMinutes": 90,
+      "splittable": true,
+      "minSessionMinutes": 30,
+      "priority": 1,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-11-19T09:00:00-07:00"
+    },
+    {
+      "id": "student-01-task-2",
+      "userId": "student-01",
+      "title": "Draft history reflection",
+      "description": "Write a one-page reflection with two cited examples.",
+      "course": "Fictional History 201",
+      "dueAt": "2026-11-22T17:00:00-07:00",
+      "estimatedMinutes": 120,
+      "splittable": true,
+      "minSessionMinutes": 45,
+      "priority": 2,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-11-19T09:05:00-07:00"
+    },
+    {
+      "id": "student-01-task-3",
+      "userId": "student-01",
+      "title": "Review biology lecture notes",
+      "description": null,
+      "course": "Fictional Biology 110",
+      "dueAt": "2026-11-24T12:00:00-07:00",
+      "estimatedMinutes": null,
+      "splittable": false,
+      "minSessionMinutes": null,
+      "priority": null,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-11-19T09:10:00-07:00"
+    }
+  ],
+  "classMeetings": [
+    {
+      "id": "student-01-class-1",
+      "userId": "student-01",
+      "name": "Fictional Algebra 101",
+      "location": "North Hall 101",
+      "days": ["mon", "wed", "fri"],
+      "startTime": "09:00",
+      "endTime": "09:50",
+      "termStart": "2026-08-24",
+      "termEnd": "2026-12-11"
+    },
+    {
+      "id": "student-01-class-2",
+      "userId": "student-01",
+      "name": "Fictional History 201",
+      "location": "West Hall 204",
+      "days": ["tue", "thu"],
+      "startTime": "11:00",
+      "endTime": "12:15",
+      "termStart": "2026-08-24",
+      "termEnd": "2026-12-11"
+    },
+    {
+      "id": "student-01-class-3",
+      "userId": "student-01",
+      "name": "Fictional Biology 110",
+      "location": "Science Hall 300",
+      "days": ["mon", "wed"],
+      "startTime": "14:00",
+      "endTime": "15:15",
+      "termStart": "2026-08-24",
+      "termEnd": "2026-12-11"
+    }
+  ],
+  "commitments": [
+    {
+      "id": "student-01-commitment-1",
+      "userId": "student-01",
+      "title": "Fictional club meeting",
+      "kind": "extracurricular",
+      "startAt": "2026-11-19T16:00:00-07:00",
+      "endAt": "2026-11-19T17:30:00-07:00"
+    },
+    {
+      "id": "student-01-commitment-2",
+      "userId": "student-01",
+      "title": "Fictional dinner shift",
+      "kind": "personal",
+      "startAt": "2026-11-20T18:00:00-07:00",
+      "endAt": "2026-11-20T20:00:00-07:00"
+    }
+  ]
+}
