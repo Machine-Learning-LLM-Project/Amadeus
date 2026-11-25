@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { clockLabel, entriesForDay, moveDay } from '@/components/day-agenda';
-import { sampleAgenda, sampleDay } from '@/components/sample-agenda';
+import { Action } from '@/components/record-list';
+import { usePlanner } from '@/components/use-planner';
+import { decideBlock } from '@/lib/planner';
 
 const dateHeading = new Intl.DateTimeFormat('en-US', {
   weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC',
@@ -15,23 +17,51 @@ const palette = {
 };
 
 export default function ScheduleScreen() {
-  const [day, setDay] = useState(sampleDay);
+  const { data, error, refresh } = usePlanner();
+  const [chosenDay, setDay] = useState<string | null>(null);
+  const [saving, setSaving] = useState<string | null>(null);
+  const [message, setMessage] = useState('');
+  const lock = useRef(false);
+
+  async function decide(id: string, status: 'accepted' | 'rejected') {
+    if (lock.current) return;
+    lock.current = true;
+    setSaving(id);
+    setMessage('');
+    try {
+      const changed = await decideBlock(id, status);
+      setMessage(changed ? (status === 'accepted' ? 'Session accepted.' : 'Session rejected.')
+        : 'This suggestion has already changed. Your schedule has been refreshed.');
+    } catch {
+      setMessage('Couldn’t confirm that decision. Check the refreshed schedule before trying again.');
+    } finally {
+      await refresh();
+      lock.current = false;
+      setSaving(null);
+    }
+  }
+
+  if (!data) return <View style={styles.content}>
+    <Text>{error ? 'Couldn’t load your schedule.' : 'Loading your schedule…'}</Text>
+    {error && <Action title="Retry" onPress={refresh} />}
+  </View>;
+  const day = chosenDay ?? data.today;
   const selected = new Date(day + 'T12:00:00Z');
   const monday = moveDay(day, -((selected.getUTCDay() + 6) % 7));
-  const entries = entriesForDay(day, sampleAgenda);
+  const entries = entriesForDay(day, data);
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <Text style={styles.caption}>Sample schedule · Denver time</Text>
+      <Text style={styles.caption}>My schedule · {data.timezone}</Text>
       <Text accessibilityRole="header" style={styles.heading}>{dateHeading.format(selected)}</Text>
       <View style={styles.navigation}>
         <Pressable accessibilityRole="button" accessibilityLabel="Previous week"
-          onPress={() => setDay(d => moveDay(d, -7))} style={styles.navButton}>
+          onPress={() => setDay(moveDay(day, -7))} style={styles.navButton}>
           <Text style={styles.navText}>‹ Week</Text>
         </Pressable>
         <Text style={styles.year}>{selected.getUTCFullYear()}</Text>
         <Pressable accessibilityRole="button" accessibilityLabel="Next week"
-          onPress={() => setDay(d => moveDay(d, 7))} style={styles.navButton}>
+          onPress={() => setDay(moveDay(day, 7))} style={styles.navButton}>
           <Text style={styles.navText}>Week ›</Text>
         </Pressable>
       </View>
@@ -51,6 +81,7 @@ export default function ScheduleScreen() {
         })}
       </View>
       <View style={styles.agenda}>
+        {!!message && <Text accessibilityLiveRegion="polite" style={styles.detail}>{message}</Text>}
         {entries.map(entry => {
           const color = palette[entry.kind];
           return (
@@ -63,6 +94,12 @@ export default function ScheduleScreen() {
                 <Text style={[styles.kind, { color: color.ink }]}>{entry.kind}</Text>
                 <Text style={styles.title}>{entry.title}</Text>
                 {entry.detail && <Text style={styles.detail}>{entry.detail}</Text>}
+                {entry.proposalId && <View style={styles.actions}>
+                  <Action title={saving === entry.proposalId ? 'Saving…' : 'Accept'} disabled={saving !== null}
+                    onPress={() => decide(entry.proposalId!, 'accepted')} />
+                  <Action title="Reject" secondary disabled={saving !== null}
+                    onPress={() => decide(entry.proposalId!, 'rejected')} />
+                </View>}
               </View>
             </View>
           );
@@ -99,4 +136,5 @@ const styles = StyleSheet.create({
   title: { color: '#162D26', fontSize: 18, fontWeight: '600' },
   detail: { color: '#47564D', fontSize: 14, lineHeight: 20 },
   empty: { color: '#52605A', paddingVertical: 24, textAlign: 'center' },
+  actions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 6 },
 });

@@ -15,6 +15,8 @@ type Entry = {
   start: string;
   end: string;
   detail: string | null;
+  proposalId?: string;
+  acceptedWork?: boolean;
 };
 
 const weekdays: Weekday[] = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -74,6 +76,8 @@ export function entriesForDay(day: string, data: AgendaData): Entry[] {
     if (block.sessionCount > 1) details.push(`Session ${block.sessionIndex} of ${block.sessionCount}`);
     addTimedEntry(block.start, block.end, {
       key: 'work-' + block.id, kind: 'Work session', title: task?.title ?? 'Study session',
+      proposalId: block.status === 'proposed' ? block.id : undefined,
+      acceptedWork: block.status === 'accepted',
       detail: details.join(' · '),
     });
   }

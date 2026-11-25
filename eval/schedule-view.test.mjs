@@ -26,7 +26,12 @@ test('students see proposal status and split session labels, with rejected work 
   assert.equal(work.length, 1);
   assert.equal(work[0].title, 'Draft history reflection');
   assert.equal(work[0].detail, 'Proposed · AI suggestion · Session 1 of 2');
-  assert.match(entriesForDay(sampleDay, sampleAgenda)[1].detail, /Accepted/);
+  assert.equal(work[0].proposalId, sampleAgenda.blocks[1].id);
+  assert.equal(work[0].acceptedWork, false);
+  const accepted = entriesForDay(sampleDay, sampleAgenda)[1];
+  assert.match(accepted.detail, /Accepted/);
+  assert.equal(accepted.proposalId, undefined);
+  assert.equal(accepted.acceptedWork, true);
 });
 
 test('a UTC session crossing Denver midnight appears only on the days it occupies', () => {
