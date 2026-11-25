@@ -4,6 +4,8 @@
   "main": "expo-router/entry",
   "dependencies": {
     "@expo/ui": "~58.0.28",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "@supabase/supabase-js": "^2.119.0",
     "dotenv": "^18.0.10",
     "expo": "~58.0.25",
     "expo-constants": "~58.0.16",
@@ -34,6 +36,7 @@
     "@types/react": "~19.3.0",
     "eslint": "^9.0.0",
     "eslint-config-expo": "~58.0.4",
+    "supabase": "^3.1.0",
     "typescript": "~6.0.3"
   },
   "scripts": {
@@ -43,8 +46,12 @@
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
+    "test:bayasaa": "node --experimental-strip-types --test eval/bayasaa/guardrails.test.mjs",
+    "usage:summary": "node --experimental-strip-types eval/bayasaa/summarize-usage.mjs",
     "check:secrets": "node scripts/check-secrets.mjs",
     "check": "npm run typecheck && npm run lint && npm run check:secrets",
+    "db:types": "supabase gen types typescript --remote --schema public > shared/database.types.ts",
+    "check:rls": "tsx --env-file=.env scripts/check-rls.ts",
     "eval": "tsx eval/run.ts",
     "canvas-import": "tsx eval/canvas_mock_extractor.ts"
   },

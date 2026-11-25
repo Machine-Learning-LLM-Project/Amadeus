@@ -28,7 +28,13 @@ npm install
 cp .env.example .env        # Windows (PowerShell): Copy-Item .env.example .env
 ```
 
-Fill in `.env` with the values the team shares privately. **Never commit `.env`.** Keep `LLM_MODE=mock` unless you are testing LLM features.
+Fill in `.env`:
+
+- `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: from the Supabase dashboard (Project Settings → API keys), or ask Fernando.
+- `OPENAI_API_KEY`: shared privately within the team. Only needed for live LLM runs.
+- Keep `LLM_MODE=mock` unless you are testing LLM features.
+
+**Never commit `.env`.**
 
 ## Run the app
 
@@ -36,12 +42,13 @@ Fill in `.env` with the values the team shares privately. **Never commit `.env`.
 npx expo start
 ```
 
-Then press `w` for web, `a` for the Android emulator, or `i` for the iOS simulator (macOS), or scan the QR code with Expo Go.
+Then press `w` for web, `a` for the Android emulator, or `i` for the iOS simulator (macOS), or scan the QR code with Expo Go. Use **Create account** on the sign-in screen the first time. Use a made-up email if you like, since email confirmation is off during development.
 
 ## Checks
 
 ```bash
-npm run check    # typecheck + lint + secret check (also runs in CI on every PR)
+npm run check        # typecheck + lint + secret check (also runs in CI on every PR)
+npm run check:rls    # privacy test: a second user can't read or change the first user's data
 ```
 
 ## Project layout
@@ -51,7 +58,7 @@ npm run check    # typecheck + lint + secret check (also runs in CI on every PR)
 | `src/app/` | Screens (Expo Router). Tabs: Tasks, Classes, Schedule, Brief |
 | `src/components/` | Shared UI components |
 | `shared/` | Zod schemas and types shared by the app, backend, and evaluation ([details](shared/README.md)) |
-| `supabase/` | Database migrations and edge functions *(coming soon)* |
+| `supabase/` | Database migrations (tables + Row Level Security) and edge functions |
 | `eval/` | Synthetic students, test cases, and the test runner *(coming soon)* |
 | `docs/` | [Course requirements](docs/course-requirements.md), [proposal](docs/proposal.md), [team plan](docs/team-plan.md), [API access](docs/api-access.md) |
 
