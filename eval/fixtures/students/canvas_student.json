@@ -1,0 +1,217 @@
+{
+  "studentId": "canvas-student.json",
+  "preferences": {
+    "userId": "canvas-student.json",
+    "timezone": "America/Denver",
+    "dayStart": "08:00",
+    "dayEnd": "23:59",
+    "bufferMinutes": 15,
+    "maxSessionMinutes": 90
+  },
+  "tasks": [
+    {
+      "id": "canvas-student.json_task_0",
+      "userId": "canvas-student.json",
+      "title": "Module 3 Case Study: Unsupervised Learning (CSCI 470)",
+      "description": null,
+      "course": "Fall 2026 MACHINE LEARNING (CSCI-470-A, DSCI-570-A)",
+      "dueAt": "2026-11-23T06:59:59Z",
+      "estimatedMinutes": null,
+      "splittable": true,
+      "minSessionMinutes": null,
+      "priority": null,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-08-23T19:26:26Z"
+    },
+    {
+      "id": "canvas-student.json_task_1",
+      "userId": "canvas-student.json",
+      "title": "Project #4 -- Deliverable 1",
+      "description": null,
+      "course": "Fall 2026 OPERATING SYSTEMS (CSCI-442-A, CSCI-598G-A)",
+      "dueAt": "2026-11-21T06:59:59Z",
+      "estimatedMinutes": null,
+      "splittable": true,
+      "minSessionMinutes": null,
+      "priority": null,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-08-04T20:14:35Z"
+    },
+    {
+      "id": "canvas-student.json_task_2",
+      "userId": "canvas-student.json",
+      "title": "Knowledge Check #10 - Routing Algorithms, BGP, OSPF",
+      "description": null,
+      "course": "Fall 2026 COMPUTER NETWORKS I (CSCI-471-A, CSCI-560-A)",
+      "dueAt": "2026-11-21T06:59:59Z",
+      "estimatedMinutes": null,
+      "splittable": false,
+      "minSessionMinutes": null,
+      "priority": null,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-08-05T15:16:22Z"
+    },
+    {
+      "id": "canvas-student.json_task_3",
+      "userId": "canvas-student.json",
+      "title": "Wireshark Lab - NAT",
+      "description": null,
+      "course": "Fall 2026 COMPUTER NETWORKS I (CSCI-471-A, CSCI-560-A)",
+      "dueAt": "2026-11-21T06:59:59Z",
+      "estimatedMinutes": null,
+      "splittable": false,
+      "minSessionMinutes": null,
+      "priority": null,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-08-15T17:34:32Z"
+    },
+    {
+      "id": "canvas-student.json_task_4",
+      "userId": "canvas-student.json",
+      "title": "HW-7",
+      "description": null,
+      "course": "Fall 2026 OPERATING SYSTEMS (CSCI-442-A, CSCI-598G-A)",
+      "dueAt": "2026-11-24T06:59:00Z",
+      "estimatedMinutes": null,
+      "splittable": false,
+      "minSessionMinutes": null,
+      "priority": null,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-08-04T20:14:15Z"
+    },
+    {
+      "id": "canvas-student.json_task_5",
+      "userId": "canvas-student.json",
+      "title": "HW11: 3D Reconstruction",
+      "description": null,
+      "course": "Fall 2026 COMPUTER VISION (CSCI-437-A, CSCI-507-A, EENG-437-A, EENG-507-A, ROBO-517-A)",
+      "dueAt": "2026-11-24T06:59:59Z",
+      "estimatedMinutes": null,
+      "splittable": true,
+      "minSessionMinutes": null,
+      "priority": null,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-08-17T22:24:57Z"
+    },
+    {
+      "id": "canvas-student.json_task_6",
+      "userId": "canvas-student.json",
+      "title": "Self check quiz: Introduction To Neural Networks",
+      "description": null,
+      "course": "Fall 2026 MACHINE LEARNING (CSCI-470-A, DSCI-570-A)",
+      "dueAt": "2026-11-24T06:59:59Z",
+      "estimatedMinutes": null,
+      "splittable": false,
+      "minSessionMinutes": null,
+      "priority": null,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-08-23T19:50:19Z"
+    },
+    {
+      "id": "canvas-student.json_task_7",
+      "userId": "canvas-student.json",
+      "title": "Project #4 -- Deliverable 2",
+      "description": null,
+      "course": "Fall 2026 OPERATING SYSTEMS (CSCI-442-A, CSCI-598G-A)",
+      "dueAt": "2026-11-26T06:59:59Z",
+      "estimatedMinutes": null,
+      "splittable": true,
+      "minSessionMinutes": null,
+      "priority": null,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-08-04T20:14:36Z"
+    }
+  ],
+  "classMeetings": [
+    {
+      "id": "Machine Learning",
+      "userId": "canvas-student.json",
+      "name": "Machine Learning",
+      "location": null,
+      "days": [
+        "tue",
+        "thu"
+      ],
+      "startTime": "11:00",
+      "endTime": "12:15",
+      "termStart": "2026-08-24",
+      "termEnd": "2026-12-11"
+    },
+    {
+      "id": "Operating Systems",
+      "userId": "canvas-student.json",
+      "name": "Operating Systems",
+      "location": null,
+      "days": [
+        "tue",
+        "thu"
+      ],
+      "startTime": "14:00",
+      "endTime": "15:15",
+      "termStart": "2026-08-24",
+      "termEnd": "2026-12-11"
+    },
+    {
+      "id": "Computer Networks I",
+      "userId": "canvas-student.json",
+      "name": "Computer Networks I",
+      "location": null,
+      "days": [
+        "tue",
+        "thu"
+      ],
+      "startTime": "08:00",
+      "endTime": "09:15",
+      "termStart": "2026-08-24",
+      "termEnd": "2026-12-11"
+    },
+    {
+      "id": "Computer Graphics",
+      "userId": "canvas-student.json",
+      "name": "Computer Graphics",
+      "location": null,
+      "days": [
+        "mon",
+        "wed",
+        "fri"
+      ],
+      "startTime": "13:00",
+      "endTime": "13:50",
+      "termStart": "2026-08-24",
+      "termEnd": "2026-12-11"
+    },
+    {
+      "id": "Literature and the Environment",
+      "userId": "canvas-student.json",
+      "name": "Literature and the Environment",
+      "location": null,
+      "days": [
+        "mon",
+        "wed",
+        "fri"
+      ],
+      "startTime": "10:00",
+      "endTime": "10:50",
+      "termStart": "2026-08-24",
+      "termEnd": "2026-12-11"
+    }
+  ],
+  "commitments": [
+    {
+      "id": "Tennis",
+      "userId": "canvas-student.json",
+      "title": "Tennis",
+      "kind": "personal",
+      "startAt": "2026-11-19T16:00:00-07:00",
+      "endAt": "2026-11-19T17:30:00-07:00"
+    }
+  ]
+}

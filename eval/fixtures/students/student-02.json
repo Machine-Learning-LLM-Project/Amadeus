@@ -1,0 +1,92 @@
+{
+  "studentId": "student-02",
+  "preferences": {
+    "userId": "student-02",
+    "timezone": "America/Chicago",
+    "dayStart": "07:00",
+    "dayEnd": "23:00",
+    "bufferMinutes": 15,
+    "maxSessionMinutes": 120
+  },
+  "tasks": [
+    {
+      "id": "student-02-task-1",
+      "userId": "student-02",
+      "title": "Linear Algebra homework",
+      "description": "Complete sections 5.1 through 5.3 exercises.",
+      "course": "Fictional Linear Algebra",
+      "dueAt": "2026-11-21T23:59:00-06:00",
+      "estimatedMinutes": 150,
+      "splittable": true,
+      "minSessionMinutes": 45,
+      "priority": 1,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-11-19T08:00:00-06:00"
+    },
+    {
+      "id": "student-02-task-2",
+      "userId": "student-02",
+      "title": "Programming project milestone",
+      "description": "Implement API endpoints and unit tests.",
+      "course": "Fictional Software Engineering",
+      "dueAt": "2026-11-23T17:00:00-06:00",
+      "estimatedMinutes": 240,
+      "splittable": true,
+      "minSessionMinutes": 60,
+      "priority": 1,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-11-19T08:15:00-06:00"
+    },
+    {
+      "id": "student-02-task-3",
+      "userId": "student-02",
+      "title": "Read economics chapter",
+      "description": "Read chapter 12 and take notes.",
+      "course": "Fictional Economics 101",
+      "dueAt": "2026-11-25T12:00:00-06:00",
+      "estimatedMinutes": 60,
+      "splittable": false,
+      "minSessionMinutes": null,
+      "priority": 3,
+      "status": "todo",
+      "source": "synthetic",
+      "createdAt": "2026-11-19T08:30:00-06:00"
+    }
+  ],
+  "classMeetings": [
+    {
+      "id": "student-02-class-1",
+      "userId": "student-02",
+      "name": "Fictional Linear Algebra",
+      "location": "Math Center 210",
+      "days": ["mon", "wed", "fri"],
+      "startTime": "10:00",
+      "endTime": "10:50",
+      "termStart": "2026-08-24",
+      "termEnd": "2026-12-11"
+    },
+    {
+      "id": "student-02-class-2",
+      "userId": "student-02",
+      "name": "Fictional Software Engineering",
+      "location": "Engineering 301",
+      "days": ["tue", "thu"],
+      "startTime": "13:00",
+      "endTime": "14:15",
+      "termStart": "2026-08-24",
+      "termEnd": "2026-12-11"
+    }
+  ],
+  "commitments": [
+    {
+      "id": "student-02-commitment-1",
+      "userId": "student-02",
+      "title": "Basketball practice",
+      "kind": "extracurricular",
+      "startAt": "2026-11-20T19:00:00-06:00",
+      "endAt": "2026-11-20T21:00:00-06:00"
+    }
+  ]
+}
